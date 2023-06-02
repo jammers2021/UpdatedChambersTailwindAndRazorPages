@@ -1,0 +1,83 @@
+﻿
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - UpdatedChambersTailwindAndRazorPages</title>
+    
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
+    
+</head>
+
+<body class="bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 text-center text-xl">
+    <header class="flex justify-between bg-gray-400">
+        <div class="px-4 py-2 bg-gray-400">
+            <a href="/Index" class="flex justify-between text-2xl text-bold text-black text-hover mr=6">
+                Chambers
+            </a>
+        </div>
+        <div class="relative flex justify-between">
+            <button onclick="onClickToggleDropdown()" class=" text-xs text-black mb=1 ml=5 mr=5">
+                <svg id="hamburgerDropdown" class="focus:text-white focus:outline-none hover:text-white" viewBox="0 0 60 40" width="32" height="32">
+                        <rect width="60" height="8" rx="6"></rect>
+                        <rect y="15" width="60" height="8" rx="6"></rect>
+                        <rect y="30" width="60" height="8" rx="6"></rect>
+                </svg>
+                <svg id="closeDropdown" class="hidden focus:text-white focus:outline-none hover:text-white" viewBox="0 0 60 40" width="32" height="32">
+                        <line x1="5" y1="5" x2="40" y2="40" style="stroke:#000; stroke-width:6"/>
+                        <line x1="5" y1="40" x2="40" y2="5" style="stroke:#000; stroke-width:6"/>
+                </svg>
+            </button>
+        </div>
+        <nav id="headerDropdown" class="absolute py-2 mt-12 right-0 flex hidden justify-end">
+            <div class="w-48 opacity-70 bg-black text-white rounded-lg py-2 shadow-xl">
+                <a href="/Index" class="block px-4 py-1 hover:bg-gray-900 hover:opacity-80">Homepage</a>
+                <a href="/Education" class="block px-4 py-1 hover:bg-gray-800 hover:opacity-80">Education</a>
+                <a href="/References" class="block px-4 py-1 hover:bg-gray-900 hover:opacity-80">References </a>
+                <a href="/Experience" class="block px-4 py-1 hover:bg-gray-900 hover:opacity-80">Experience</a>
+                <a href="/Skills" class="block px-4 py-1 hover:bg-gray-900 hover:opacity-80">Skills</a>
+            </div>
+        </nav>
+    </header>
+   
+    <div class="hidden"></div>
+    <div class="block bg-transparent"></div>
+
+    <div class="content-center">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="items-center">
+            &copy; 2023 - Chambers - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        let isOpen = false;
+        function onClickToggleDropdown(){
+            isOpen = !isOpen;
+            if(isOpen){
+                $("#headerDropdown").removeClass("hidden");
+                $("#headerDropdown").addClass("block");
+                $("#hamburgerDropdown").addClass("hidden");
+                $("#closeDropdown").removeClass("hidden");
+            } else{
+                $("#headerDropdown").addClass("hidden");
+                $("#headerDropdown").removeClass("block");
+                $("#hamburgerDropdown").removeClass("hidden");
+                $("#closeDropdown").addClass("hidden");
+            }
+        }
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

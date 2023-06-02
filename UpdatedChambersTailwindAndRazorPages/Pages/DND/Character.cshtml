@@ -1,0 +1,59 @@
+﻿@page
+@model UpdatedChambersTailwindAndRazorPages.Pages.DND.CharacterModel
+@{
+	if (Model.MyCharacter != null)
+	{
+		<h1 class="mx-auto md:w-1/2 bg-gray-600 text-xl text-gray-300">
+			<a class="bg-blue-400 rounded-xl text-2xl">
+				AC: @Model.MyCharacter.ArmorClass
+			</a>
+			<a>
+				@Model.MyCharacter.Name
+			</a>
+			<a class="bg-purple-800 rounded-xl text-2xl text-gray-100">
+				@if (Model.MyCharacter.ChaSpellSaveDC == null && Model.MyCharacter.WisSpellSaveDC == null && Model.MyCharacter.IntSpellSaveDC == null)
+				{
+					@:Save DC = N/A
+				}
+				else if (Model.MyCharacter.ChaSpellSaveDC != null && Model.MyCharacter.WisSpellSaveDC == null && Model.MyCharacter.IntSpellSaveDC == null)
+				{
+					@: Save DC = @Model.MyCharacter.ChaSpellSaveDC
+				}
+				else if (Model.MyCharacter.ChaSpellSaveDC == null && Model.MyCharacter.WisSpellSaveDC != null && Model.MyCharacter.IntSpellSaveDC == null)
+				{
+					@: Save DC = @Model.MyCharacter.WisSpellSaveDC
+				}
+				else if (Model.MyCharacter.ChaSpellSaveDC == null && Model.MyCharacter.WisSpellSaveDC == null && Model.MyCharacter.IntSpellSaveDC != null)
+				{
+					@: Save DC = @Model.MyCharacter.IntSpellSaveDC
+				}
+				else
+				{
+					if (Model.MyCharacter.ChaSpellSaveDC != null)
+					{
+						@: Cha Save DC = @Model.MyCharacter.ChaSpellSaveDC
+					}
+					if (Model.MyCharacter.WisSpellSaveDC != null)
+					{
+						@: Wis Save DC = @Model.MyCharacter.WisSpellSaveDC
+					}
+					if (Model.MyCharacter.IntSpellSaveDC != null)
+					{
+						@: Int Save DC = @Model.MyCharacter.IntSpellSaveDC
+					}
+				}
+			</a>
+		</h1>
+		<h2 class="mx-auto md:w-1/2 text-xl bg-gray-400 text-gray-700">
+			<a>
+				@Model.MyCharacter.DndClass
+			</a>
+			<a>
+				@Model.MyCharacter.Subclass
+			</a>
+
+		</h2>
+	}
+	
+}
+

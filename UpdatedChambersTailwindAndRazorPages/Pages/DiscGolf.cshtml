@@ -1,0 +1,120 @@
+﻿@page
+@model UpdatedChambersTailwindAndRazorPages.Pages.DiscGolf.DiscGolfModel
+@{
+	
+}
+
+<h1 class="text-2xl text-bold">Disc Golf API Connection</h1>
+
+<button id="viewAllAces" onclick="onClickToggleAces()" class="content-center rounded-xl bg-gray-200 text-sm text-black mb=1 ml=5 mr=5 py-1 px-1">
+	View All Aces
+</button>
+<button id="hideAllAces" onclick="onClickToggleAces()" class="hidden content-center rounded-xl bg-gray-200 text-sm text-black mb=1 ml=5 mr=5 py-1 px-1">
+	Hide All Aces
+</button>
+<table id="AcesTable" class="shadow-xl md:center hidden text-center md:w-3/4 lg:w-1/2 items-center table-fixed rounded-xl bg-gray-700 text-sm text-white py-2 my-2 px-3 mx-auto">
+	<thead class="bg-gray-100 text-gray-600 table-header-group text-semibold border-bottom rounded-xl ">
+		<tr class="rounded-xl table-row">
+			<th class="table-cell px-2">Player</th>
+			<th class="table-cell px-2">Date</th>
+			<th class="table-cell px-2">Course</th>
+			<th class="table-cell px-2">Course Variant</th>
+			<th class="table-cell px-2">Hole</th>
+		</tr>
+	</thead>	
+	@{
+		foreach(var scoreDTO in Model.scoreDTOs)
+		{
+			var playerName = $"{scoreDTO.Round.Player.FirstName} {scoreDTO.Round.Player.LastName}";
+			var holeNumber = scoreDTO.Hole.Number;
+			var date = scoreDTO.Round.DatePlayed.Date.ToShortDateString();
+			var courseVariantName = scoreDTO.Hole.CourseVariant.Name;
+			var courseName = scoreDTO.Hole.CourseVariant.Course.Name;
+
+			<tr class="justify-center table-row border-collapse border-gray-300 px-2">
+				<td class=" table-cell border-collapse border-gray-300 px-2">@playerName</td>
+				<td class="table-cell border-collapse border-gray-300 px-2">@date</td>
+				<td class="table-cell border-collapse border-gray-300 px-2">@courseName</td>
+				<td class="table-cell border-collapse border-gray-300 px-2">@courseVariantName</td>
+				<td class="table-cell border-collapse border-gray-300 px-2">@holeNumber</td>
+			</tr>
+		
+		}
+	}
+</table>
+<button id="viewAllPlayers" onclick="onClickTogglePlayers()" class="content-center rounded-xl bg-gray-200 text-sm text-black mb=1 ml=5 mr=5 py-1 px-1">
+	View All Players
+</button>
+<button id="hideAllPlayers" onclick="onClickTogglePlayers()" class="hidden content-center rounded-xl bg-gray-200 text-sm text-black mb=1 ml=5 mr=5 py-1 px-1">
+	Hide All Players
+</button>
+<table id="PlayersTable" class="md:center hidden text-center md:w-3/4 lg:w-1/2 items-center table-fixed  rounded-xl bg-gray-700 text-sm text-white py-2 my-2 px-3 mx-auto">
+	<thead class="justify-center table-header-group text-semibold bg-gray-100 text-gray-600 border-bottom border-gray-300">
+		<tr class="table-row">
+			<th class="table-cell px-2">Player ID</th>
+			<th class="table-cell px-2">First Name</th>
+			<th class="table-cell px-2">Last Name</th>
+			<th class="table-cell px-2">PDGA #</th>
+		</tr>
+	</thead>
+	@{
+		foreach (var playerDTO in Model.playerDTOs)
+		{
+			var playerID = playerDTO.Id;
+			var firstName = playerDTO.FirstName;
+			var lastName = playerDTO.LastName;
+			var pdgaNumber = playerDTO.PDGANumber;
+
+			<tr class="justify-center table-row border-collapse border-gray-300 px-2">
+				<td class=" table-cell border-collapse border-gray-300 px-2">@playerID</td>
+				<td class="table-cell border-collapse border-gray-300 px-2">@firstName</td>
+				<td class="table-cell border-collapse border-gray-300 px-2">@lastName</td>
+				<td class="table-cell border-collapse border-gray-300 px-2">@pdgaNumber</td>
+			</tr>
+
+		}
+	}
+</table>
+
+
+<script>
+	
+	//Add Second Button Hide All Aces (Replace hamburger and close)
+	let isViewed = false;
+	function onClickToggleAces() {
+		isViewed = !isViewed;
+		if (isViewed) {
+			$("#AcesTable").removeClass("hidden");
+			//$("#AcesTable").addClass("block");
+			$("#hideAllAces").removeClass("hidden");
+			$("#viewAllAces").addClass("hidden");
+	 		} 
+			else {
+			$("#AcesTable").addClass("hidden");
+			//$("#AcesTable").removeClass("block");
+			$("#viewAllAces").removeClass("hidden");
+			$("#hideAllAces").addClass("hidden");
+		}
+	}
+</script>
+
+<script>
+	
+	//Add Second Button Hide All Aces (Replace hamburger and close)
+	let arePlayersViewed = false;
+	function onClickTogglePlayers() {
+		arePlayersViewed = !arePlayersViewed;
+		if (arePlayersViewed) {
+			$("#PlayersTable").removeClass("hidden");
+			//$("#AcesTable").addClass("block");
+			$("#hideAllPlayers").removeClass("hidden");
+			$("#viewAllPlayers").addClass("hidden");
+		}
+		else {
+			$("#PlayersTable").addClass("hidden");
+			//$("#AcesTable").removeClass("block");
+			$("#viewAllPlayers").removeClass("hidden");
+			$("#hideAllPlayers").addClass("hidden");
+		}
+	}
+</script>

@@ -1,0 +1,152 @@
+﻿@page
+@model UpdatedChambersTailwindAndRazorPages.Pages.DND.DndModel
+@{
+}
+<h1 class="rounded-xl text-bold bg-gray-700 text-3xl text-gray-200 text-center">
+	D&D 5e Character Generation
+</h1>
+
+<form method="post">
+
+	<select id="CharacterGenerationMethod" class="block items-center mx-auto text-center py-3 px-2 mt-2 bg-gray-100 border border-gray-600  text-sm rounded-xl focus:outline-none focus\:outline-none border-gray-600 block md:w-1/2">
+		<label for="Stat Selection Method" class="block items-center text-sm font-medium text-gray-900 mx-auto"></label>
+		<option selected>Choose a stat generation method</option>
+		<option value="Roll">Roll for stats (4d6 keep best 3)</option>
+		<option value="Manual">Enter Stats Manually (ex: rolled physically)</option>
+		<option value="Chambers">Roll for stats (Chambers variation)(4d6 + 1d4 keep best 3)</option>
+		<option value="PointBuy">Point Buy</option>
+		<option value="StandardArray">Standard Array</option>
+	</select>
+	<select id="ClassSelection" class="block items-center mx-auto text-center py-3 px-2 mt-2 bg-gray-100 border border-gray-600  text-sm rounded-xl focus:outline-none focus\:outline-none border-gray-600 block md:w-1/2">
+		<label for="Stat Selection Method" class="block items-center text-sm font-medium text-gray-900 mx-auto"></label>
+		<option selected>Choose your class</option>
+		<option value="Artificer">Artificer</option>
+		<option value="Barbarian">Barbarian</option>
+		<option value="Bard">Bard</option>
+		<option value="Cleric">Cleric</option>
+		<option value="Druid">Druid</option>
+		<option value="Fighter">Fighter(Strength)</option>
+		<option value="FighterDex">Fighter(Dexterity)</option>
+		<option value="Monk">Monk</option>
+		<option value="Paladin">Paladin</option>
+		<option value="Ranger">Ranger</option>
+		<option value="Rogue">Rogue</option>
+		<option value="Sorcerer">Sorcerer</option>
+		<option value="Warlock">Warlock</option>
+		<option value="Wizard">Wizard</option>
+	</select>
+	<select id="Species Selection" class="block items-center mx-auto text-center py-3 px-2 mt-2 bg-gray-100 border border-gray-600  text-sm rounded-xl focus:outline-none focus\:outline-none border-gray-600 block md:w-1/2">
+		<label for="Species Selection" class="block items-center text-sm font-medium text-gray-900 mx-auto"></label>
+		<option selected>Choose your species (Tasha's floating ability scores used)</option>
+		<option value="Vhuman">Variant Human</option>
+		<option value="DwarfHill">Hill Dwarf</option>
+		<option value="HighElf">High elf</option>
+		<option value="Warforged">Warforged</option>
+	</select>
+	<button id="postSubmitter" type="submit" asp-page-handler="submit" class="hidden">
+		Submit
+	</button>
+	<div id="ManualStats" class="hidden text-sm items-center">
+		<form>
+			<div><label for="First Stat" class="mx-2 py-1 mt-1">Highest Stat</label><input id="stat1" type="number" class=" mt-2" /></div>
+			<div><label for="Second Stat" class="mx-2 py-1 mt-1">Second Highest</label><input id="stat2" type="number" class=" mt-2" /></div>
+			<div><label for="Third Stat" class="mx-2 -1 mt-1">Third Highest</label><input id="stat3" type="number" class=" mt-2" /></div>
+			<div><label for="Fourth Stat" class="mx-2 py-1 mt-1">Fourth Highest</label><input id="stat4" type="number" class=" mt-2" /></div>
+			<div><label for="Fifth Stat " class="mx-2 py-1 mt-1">Second Lowest</label><input id="stat5" type="number" class=" mt-2" /></div>
+			<div><label for="Sixth Stat" class="mx-2 py-1 mt-1">Lowest Stat</label><input id="stat6" type="number" class=" mt-2" /></div>
+		</form>
+		<button onclick="saveStats()">
+			Save Stats
+		</button>
+	</div>
+
+	
+	@{
+		if (@Model.Character != null)
+		{
+
+			@: AC = Model.Character.ArmorClass
+			@: Cha = Model.Character.Charisma
+			@: Con = Model.Character.Constitution
+			@: Dex = Model.Character.Dexterity
+			@: Int = Model.Character.Intelligence
+			@: Str = Model.Character.Strength
+
+		}
+
+		<button onclick="getGenerationMethod(); getClass(); checkForManual(); " class="rounded-xl text-md bg-gray-600 text-gray-200 py-1 px-1 mt-2">
+			Make Selections
+		</button>
+	}
+</form>
+
+<script type="text/javascript">
+	let selectedMethod=false;
+	function getGenerationMethod(){
+		selectedMethod = !selectedMethod;
+		if(selectedMethod){
+			selectMethod = document.querySelector("#CharacterGenerationMethod")
+			outputMethod = selectMethod.value;
+
+		}
+	}
+	
+</script>
+<script>
+	function checkForManual(){
+		if (outputMethod == "Manual") {
+			$("#ManualStats").removeClass("hidden");
+		}
+		else{
+			$("#postSubmitter").removeClass("hidden");
+		}
+		
+	}
+</script>
+<script>
+	let Stats = new Array();
+	function saveStats(){
+		var saveStat1 = Number(document.getElementById("stat1").value);
+		var saveStat2 = Number(document.getElementById("stat2").value);
+		var saveStat3 = Number(document.getElementById("stat3").value);
+		var saveStat4 = Number(document.getElementById("stat4").value);
+		var saveStat5 = Number(document.getElementById("stat5").value);
+		var saveStat6 = Number(document.getElementById("stat6").value);
+		if (saveStat1 <= 20 && saveStat1 >= 1) {
+			Stats.push(saveStat1)
+		}
+		if (saveStat2 <= 20 && saveStat2 >= 1) {
+			Stats.push(saveStat2);
+		}
+		if (saveStat3 <= 20 && saveStat3 >= 1) {
+			Stats.push(saveStat3);
+		}
+		if (saveStat4 <= 20 && saveStat4 >= 1) {
+			Stats.push(saveStat4);
+		}
+		if (saveStat5<= 20 && saveStat5 >= 1) {
+			Stats.push(saveStat5);
+		}
+		if (saveStat6 <=20 && saveStat6 >=1){
+			Stats.push(saveStat6);
+		}
+		if(stats.length ==6)
+		{
+			$("#postSubmitter").removeClass("hidden");
+
+		}
+	}
+</script>
+
+<script type="text/javascript">
+	let selectedClass=false;
+	function getClass() {
+		selectedClass = !selectedClass;
+		if(selectedClass){
+			selectClass = document.querySelector("#ClassSelection")
+			outputClass = selectClass.value;
+		}
+	}
+</script>
+
+
